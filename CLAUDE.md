@@ -70,7 +70,3 @@ Mirror twin: `VyOS-Networks/vyos-1x`. Canonical side is **here** (`vyos/vyos-1x`
 - New features go here, not in the legacy `vyatta-cfg*` repos.
 - 2 repo-level Actions secrets, 2 environments, 2 outbound webhooks (`ci.vyos.net`, `hooks.zapier.com`). Do not enumerate secret names in code or docs.
 - License: GPL/LGPL dual; see `LICENSE`, `LICENSE.GPL`, `LICENSE.LGPL`.
-
----
-
-This file is mirrored on Confluence: [`vyos/vyos-1x`](https://internal.confluence.vyos.com/wiki/spaces/VYOS/pages/817889364). The Confluence page also carries the per-repo audit data (settings, workflows, secret counts, hygiene) that complements this CLAUDE.md. Edit either side; resync via the documentation pipeline.
