@@ -6,9 +6,9 @@ The user-visible VyOS package: command definitions (XML), conf-mode and op-mode 
 
 ## Tech stack
 
-- Python 3 (≥3.10) with `vyos.*` library under `python/vyos/`.
+- Python 3 (≥3.11) with `vyos.*` library under `python/vyos/`.
 - XML interface and op-mode definitions, Jinja2 templates under `data/templates/`.
-- C wrapper `libvyosconfig` (vendored at `libvyosconfig/`) — links statically against [`vyos/vyos1x-config`](https://github.com/vyos/vyos1x-config) (OCaml).
+- C wrapper `libvyosconfig` (vendored at `libvyosconfig/`) — builds `libvyosconfig.so.0` (shared library) using OCaml ctypes bindings against [`vyos/vyos1x-config`](https://github.com/vyos/vyos1x-config).
 - Build: Debian packaging via `debhelper` + `dh-python`. Build-deps in `debian/control` (see `protobuf-compiler`, `libpcre2-dev`, `libffi-dev`, `python3-vici`, `python3-fastapi`, ...).
 - Tests: `nose2` (`nose2.cfg`), Python `pylint`, ruff (`ruff.toml`).
 
@@ -17,8 +17,7 @@ The user-visible VyOS package: command definitions (XML), conf-mode and op-mode 
 ```
 # Debian package build (produces 6 binary packages)
 dpkg-buildpackage -uc -us -tc -b
-# Smoketests (against an installed VyOS, normally driven by vyos-build)
-./scripts/build-command-templates ...   # XML preprocessor
+# In-tree build (XML preprocessing + shim compilation)
 make all                                # see Makefile targets
 ```
 
@@ -68,5 +67,5 @@ Mirror twin: `VyOS-Networks/vyos-1x`. Canonical side is **here** (`vyos/vyos-1x`
 
 - The vendored `libvyosconfig/` is **not** just a wrapper — it produces the `libvyosconfig0` Debian package. Edits there ripple to every consumer of the config-tree API.
 - New features go here, not in the legacy `vyatta-cfg*` repos.
-- 2 repo-level Actions secrets, 2 environments, 2 outbound webhooks (`ci.vyos.net`, `hooks.zapier.com`). Do not enumerate secret names in code or docs.
+- 2 repo-level Actions secrets, 2 environments, 2 outbound webhooks. Do not enumerate secret names or infrastructure endpoints in code or docs.
 - License: GPL/LGPL dual; see `LICENSE`, `LICENSE.GPL`, `LICENSE.LGPL`.
